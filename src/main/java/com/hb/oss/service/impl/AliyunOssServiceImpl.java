@@ -45,7 +45,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
      * @param bucketName Bucket名
      */
     @Override
-    public void createBucket(String bucketName) {
+    public boolean createBucket(String bucketName) {
+        boolean insertFlag = true;
         if (StringUtils.isNullOrEmpty(bucketName)) {
             bucketName = DEFAULT_BUCKET_NAME;
         }
@@ -55,13 +56,41 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             client.createBucket(bucketName);
         } catch (OSSException oe) {
             log.error(oe.getMessage());
+            insertFlag = false;
         } catch (ClientException ce) {
             log.error(ce.getMessage());
+            insertFlag = false;
         } finally {
             if (client != null) {
                 client.shutdown();
             }
         }
+        return insertFlag;
+    }
+
+    @Override
+    public boolean deleteBuket(String bucketName) {
+        boolean deleteFlag = true;
+        if (StringUtils.isNullOrEmpty(bucketName)) {
+            deleteFlag = false;
+            return deleteFlag;
+        }
+        OSS client = getOssClient();
+        try {
+            // 删除存储空间。
+            client.deleteBucket(bucketName);
+        } catch (OSSException oe) {
+            log.error(oe.getMessage());
+            deleteFlag = false;
+        } catch (ClientException ce) {
+            log.error(ce.getMessage());
+            deleteFlag = false;
+        } finally {
+            if (client != null) {
+                client.shutdown();
+            }
+        }
+        return deleteFlag;
     }
 
     @Override

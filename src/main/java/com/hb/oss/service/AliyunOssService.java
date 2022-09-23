@@ -13,8 +13,18 @@ public interface AliyunOssService extends OssService {
      * 创建Bucket
      *
      * @param bucketName Bucket名
+     * @return true = 新增成功
      */
-    void createBucket(String bucketName);
+    boolean createBucket(String bucketName);
+
+
+    /**
+     * 删除Bucket
+     *
+     * @param bucketName Bucket名
+     * @return true = 删除成功
+     */
+    boolean deleteBuket(String bucketName);
 
     /**
      * 上传文件
