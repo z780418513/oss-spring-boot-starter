@@ -33,6 +33,7 @@ public interface AliyunOssService extends OssService {
      * @param bucketName 指定bucket，传空或""为默认 hb-admin-oss
      * @return 上传路径bucketPath
      */
+    @Deprecated
     String upLoadFile(String filePath, String bucketName);
 
 
@@ -54,4 +55,14 @@ public interface AliyunOssService extends OssService {
      * @return InputStream流
      */
     InputStream downFile(String bucketPath, String bucketName);
+
+    /**
+     * 上传文件流
+     *
+     * @param inputStream in
+     * @param fileName    文件名
+     * @param bucketName  指定bucket，传空或""为默认 hb-admin-oss
+     * @return 文件下载地址
+     */
+    String upLoadFile(InputStream inputStream, String fileName, String bucketName);
 }

@@ -103,7 +103,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         String bucketPath = "";
         try {
             File file = new File(filePath);
-            bucketPath = getBucketPath(file);
+            bucketPath = getBucketPath(file.getName());
             // 创建PutObjectRequest对象。
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, bucketPath, file);
             // 上传文件。
@@ -170,6 +170,39 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         return inputStream;
     }
 
+    @Override
+    public String upLoadFile(InputStream inputStream, String fileName, String bucketName) {
+        if (StringUtils.isNullOrEmpty(bucketName)) {
+            bucketName = DEFAULT_BUCKET_NAME;
+        }
+        OSS client = getOssClient();
+
+        String downPath = "";
+        try {
+            String bucketPath = getBucketPath(fileName);
+            String endpointPrefix = endpoint.split("//")[0];
+            String endpointSuffix = endpoint.split("//")[1];
+            // 下载路径
+            downPath = endpointPrefix + "//" + bucketName + "." + endpointSuffix + "/" + bucketPath;
+            // 创建PutObjectRequest对象。
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, bucketPath, inputStream);
+            // 上传文件。
+            client.putObject(putObjectRequest);
+
+        } catch (OSSException oe) {
+            log.error(oe.getMessage());
+
+        } catch (ClientException ce) {
+            log.error(ce.getMessage());
+
+        } finally {
+            if (client != null) {
+                client.shutdown();
+            }
+        }
+        return downPath;
+    }
+
     private OSS getOssClient() {
         // 创建OSSClient实例。
         return new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -181,13 +214,12 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
-    private String getBucketPath(File file) {
-        String fileName = file.getName();
+    private String getBucketPath(String fileName) {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
         String today = sdf.format(date);
         String uuid = UUID.randomUUID().toString();
-        return today + uuid + fileName;
+        return today + uuid + "-" + fileName;
     }
 
 }
