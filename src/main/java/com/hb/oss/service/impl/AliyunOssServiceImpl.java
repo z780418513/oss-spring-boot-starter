@@ -5,6 +5,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.common.utils.StringUtils;
+import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.hb.oss.properties.OssProperties;
@@ -32,6 +33,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     private final String accessKeyId;
     private final String accessKeySecret;
     private final String DEFAULT_BUCKET_NAME = "hb-admin-oss";
+    private final CannedAccessControlList DEFAULT_CANNED_ACCESS = CannedAccessControlList.PublicRead;
 
     public AliyunOssServiceImpl(OssProperties ossProperties) {
         this.endpoint = ossProperties.getEndpoint();
@@ -54,6 +56,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         try {
             // 创建存储空间。
             client.createBucket(bucketName);
+            // 默认公共读
+            client.setBucketAcl(bucketName, DEFAULT_CANNED_ACCESS);
         } catch (OSSException oe) {
             log.error(oe.getMessage());
             insertFlag = false;
