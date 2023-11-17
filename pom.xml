@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hb</groupId>
-    <artifactId>oss-spring-boot-starter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>storage-spring-boot-starter</artifactId>
+    <version>1.0.0</version>
     <name>oss-spring-boot-starter</name>
     <description>oss-spring-boot-starter</description>
 
@@ -13,8 +13,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
-        <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <oss-version>3.15.1</oss-version>
+        <hutool-version>5.8.22</hutool-version>
     </properties>
 
     <dependencies>
@@ -36,11 +36,12 @@
             <version>${oss-version}</version>
         </dependency>
 
-        <!--commons-beanutils-->
+
         <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>${commons-beanutils.version}</version>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool-version}</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -81,19 +82,19 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!--源码打包插件-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            &lt;!&ndash;源码打包插件&ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-source-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>attach-sources</id>-->
+<!--                        <goals>-->
+<!--                            <goal>jar</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

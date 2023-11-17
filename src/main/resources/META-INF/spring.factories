@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.hb.oss.config.OssConfig
+com.hb.storage.config.OssAutoConfiguration

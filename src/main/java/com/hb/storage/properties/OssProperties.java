@@ -1,4 +1,4 @@
-package com.hb.oss.properties;
+package com.hb.storage.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
