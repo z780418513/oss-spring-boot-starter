@@ -7,13 +7,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description
  * @date 2022/9/22
  */
-@ConfigurationProperties(prefix = "aliyun")
+@ConfigurationProperties(prefix = "storage.oss")
 public class OssProperties {
 
     /**
      * 开启oss
      */
-    private boolean enableOss;
+    private boolean enable;
 
     /**
      * Endpoint
@@ -30,12 +30,12 @@ public class OssProperties {
      */
     private String accessKeySecret;
 
-    public boolean isEnableOss() {
-        return enableOss;
+    public boolean isEnable() {
+        return enable;
     }
 
-    public void setEnableOss(boolean enableOss) {
-        this.enableOss = enableOss;
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     public String getEndpoint() {

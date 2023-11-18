@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022/9/22
  */
 @Configuration
-@ConditionalOnProperty(prefix = "aliyun", name = "enable-oss", havingValue = "true")
+@ConditionalOnProperty(prefix = "storage.oss", name = "enable", havingValue = "true")
 @EnableConfigurationProperties(OssProperties.class)
 public class OssAutoConfiguration {
     private static final Logger log = LoggerFactory.getLogger(OssAutoConfiguration.class);
@@ -29,7 +29,7 @@ public class OssAutoConfiguration {
      *
      * @param ossProperties oss配置
      * @return OSSClient
-     * @link https://help.aliyun.com/zh/oss/developer-reference/initialization-3?spm=a2c4g.11186623.0.0.28dfdf3aroY1EU
+     * @link <a href="https://help.aliyun.com/zh/oss/developer-reference/initialization-3?spm=a2c4g.11186623.0.0.28dfdf3aroY1EU">oss<a/>
      */
     @Bean(name = "ossClient", destroyMethod = "shutdown")
     @ConditionalOnMissingBean({OSSClient.class})

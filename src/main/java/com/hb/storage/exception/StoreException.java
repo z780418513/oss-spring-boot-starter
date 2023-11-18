@@ -15,7 +15,7 @@ public class StoreException extends RuntimeException {
      */
     private final String message;
     /**
-     * 错误code
+     * 存储类型code
      */
     private final int storeCode;
     /**

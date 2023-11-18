@@ -8,7 +8,7 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.hb.storage.enums.StorageEnum;
 import com.hb.storage.enums.StoreOperationEnum;
 import com.hb.storage.exception.StoreException;
-import com.hb.storage.service.AliOssService;
+import com.hb.storage.service.OssService;
 import com.hb.storage.util.FileHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +22,8 @@ import java.nio.charset.Charset;
  * @description
  * @date 2022/9/22
  */
-public class DefaultAliOssService implements AliOssService {
-    private static final Logger log = LoggerFactory.getLogger(DefaultAliOssService.class);
+public class DefaultOssService implements OssService {
+    private static final Logger log = LoggerFactory.getLogger(DefaultOssService.class);
 
     /**
      * bucketName
@@ -38,7 +38,7 @@ public class DefaultAliOssService implements AliOssService {
     private static final CannedAccessControlList DEFAULT_CANNED_ACCESS = CannedAccessControlList.PublicRead;
 
 
-    public DefaultAliOssService(String bucketName, OSSClient ossClient) {
+    public DefaultOssService(String bucketName, OSSClient ossClient) {
         this.bucketName = bucketName;
         this.client = ossClient;
     }
@@ -105,7 +105,7 @@ public class DefaultAliOssService implements AliOssService {
     public boolean fileExist(String objectName) throws StoreException {
         try {
             return client.doesObjectExist(bucketName, objectName);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new StoreException(StorageEnum.ALI_OSS, StoreOperationEnum.QUERY_FILE, e.getMessage());
         }
     }
@@ -126,8 +126,6 @@ public class DefaultAliOssService implements AliOssService {
         InputStream inputStream = downLoadFile(objectName);
         return IoUtil.read(inputStream, Charset.defaultCharset());
     }
-
-
 
 
 }

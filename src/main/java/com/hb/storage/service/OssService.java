@@ -9,26 +9,7 @@ import java.io.InputStream;
  * @description 阿里云OSS服务类
  * @date 2022/9/22
  */
-public interface AliOssService {
-
-    /**
-     * 创建Bucket,如果Bucket已存在则不做任何操作
-     */
-    void createBucket() throws StoreException;
-
-
-    /**
-     * 删除Bucket
-     */
-    void deleteBuket() throws StoreException;
-
-    /**
-     * 判断Bucket是否存在
-     *
-     * @return true = 存在
-     */
-    boolean existBuket() throws StoreException;
-
+public interface OssService extends BucketService{
 
     /**
      * 上传文件
