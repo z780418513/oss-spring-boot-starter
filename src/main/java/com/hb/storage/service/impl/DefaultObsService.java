@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 
+import java.util.function.Supplier;
+
 /**
  * @author: zhaochengshui
  * @description OBS默认服务类
@@ -41,31 +43,35 @@ public class DefaultObsService implements ObsService {
 
     @Override
     public void createBucket() throws StoreException {
-        try {
-            // 创建存储空间，需要指定location
-            client.createBucket(bucketName, location);
-        } catch (ObsException e) {
-            throw new StoreException(StorageEnum.HUAWEI_OBS, StoreOperationEnum.CREATE_BUCKET, e.getErrorMessage());
-        }
+        // 创建存储空间，需要指定location
+        doObsRequest(StoreOperationEnum.CREATE_BUCKET, () -> client.createBucket(bucketName, location));
     }
 
     @Override
     public void deleteBuket() throws StoreException {
-        try {
-            client.deleteBucket(bucketName);
-        } catch (ObsException e) {
-            throw new StoreException(StorageEnum.HUAWEI_OBS, StoreOperationEnum.DELETE_BUCKET, e.getErrorMessage());
-        }
+        doObsRequest(StoreOperationEnum.DELETE_BUCKET, () -> client.deleteBucket(bucketName));
     }
 
     @Override
     public boolean existBuket() throws StoreException {
+        return doObsRequest(StoreOperationEnum.QUERY_BUCKET, () -> client.headBucket(bucketName));
+    }
+
+
+
+
+
+
+    private <T> T doObsRequest(StoreOperationEnum operationEnum, Supplier<T> request) {
         try {
-           return client.headBucket(bucketName);
+            return request.get();
         } catch (ObsException e) {
-            throw new StoreException(StorageEnum.HUAWEI_OBS, StoreOperationEnum.QUERY_BUCKET, e.getErrorMessage());
+            throw new StoreException(StorageEnum.HUAWEI_OBS, operationEnum, e.getErrorMessage());
+        } catch (Exception e) {
+            throw new StoreException(StorageEnum.HUAWEI_OBS, operationEnum, e.getMessage());
         }
     }
+
 
     public void setLocation(String location) {
         this.location = location;

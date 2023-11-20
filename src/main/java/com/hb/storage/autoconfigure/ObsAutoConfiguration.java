@@ -1,4 +1,4 @@
-package com.hb.storage.config;
+package com.hb.storage.autoconfigure;
 
 import com.hb.storage.factory.ObsClientFactory;
 import com.hb.storage.properties.ObsProperties;

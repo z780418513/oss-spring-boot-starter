@@ -1,4 +1,4 @@
-package com.hb.storage.config;
+package com.hb.storage.autoconfigure;
 
 import com.aliyun.oss.OSSClient;
 import com.hb.storage.factory.OssClientFactory;

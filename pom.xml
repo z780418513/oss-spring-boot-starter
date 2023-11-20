@@ -15,6 +15,7 @@
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
         <oss-version>3.15.1</oss-version>
         <obs.version>3.23.9.1</obs.version>
+        <cos.version>5.6.181</cos.version>
         <hutool-version>5.8.22</hutool-version>
     </properties>
 
@@ -51,6 +52,13 @@
             <groupId>com.huaweicloud</groupId>
             <artifactId>esdk-obs-java-bundle</artifactId>
             <version>${obs.version}</version>
+        </dependency>
+
+        <!--腾讯cos-->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>${cos.version}</version>
         </dependency>
 
 
