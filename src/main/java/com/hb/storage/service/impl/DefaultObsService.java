@@ -8,6 +8,7 @@ import com.obs.services.ObsClient;
 import com.obs.services.exception.ObsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.Nullable;
 
 /**
  * @author: zhaochengshui
@@ -27,6 +28,10 @@ public class DefaultObsService implements ObsService {
      */
     private final ObsClient client;
 
+    /**
+     * location
+     */
+    @Nullable
     private String location;
 
     public DefaultObsService(String bucketName, ObsClient client) {

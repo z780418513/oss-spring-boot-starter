@@ -45,13 +45,7 @@ public interface OssService extends BucketService{
      */
     InputStream downLoadFile(String objectName) throws StoreException;
 
-    /**
-     * 下载文件，并解析成字符串文本
-     *
-     * @param objectName bucket中的地址
-     * @return 下载文件内容
-     */
-    String downLoadFileContext(String objectName) throws StoreException;
+
 
 
 }

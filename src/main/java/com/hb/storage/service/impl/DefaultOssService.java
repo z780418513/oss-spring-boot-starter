@@ -1,6 +1,5 @@
 package com.hb.storage.service.impl;
 
-import cn.hutool.core.io.IoUtil;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.OSSObject;
@@ -15,14 +14,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 
 /**
  * @author zhaochengshui
  * @description
  * @date 2022/9/22
  */
-public class DefaultOssService implements OssService {
+public class DefaultOssService extends AbstractStorageService implements OssService {
     private static final Logger log = LoggerFactory.getLogger(DefaultOssService.class);
 
     /**
@@ -121,11 +119,6 @@ public class DefaultOssService implements OssService {
         }
     }
 
-    @Override
-    public String downLoadFileContext(String objectName) throws StoreException {
-        InputStream inputStream = downLoadFile(objectName);
-        return IoUtil.read(inputStream, Charset.defaultCharset());
-    }
 
 
 }
