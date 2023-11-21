@@ -3,9 +3,7 @@ package com.hb.storage.service.impl;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.*;
 import com.hb.storage.enums.StorageEnum;
 import com.hb.storage.enums.StoreOperationEnum;
 import com.hb.storage.exception.StoreException;
@@ -13,6 +11,7 @@ import com.hb.storage.service.OssService;
 import com.hb.storage.util.FileHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.Nullable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -68,14 +67,55 @@ public class DefaultOssService extends AbstractStorageService implements OssServ
     }
 
     @Override
-    public String upLoadFile(String filePath) throws StoreException {
+    public String uploadFile(String localFilePath) throws StoreException {
+        return uploadFile(localFilePath, null);
+    }
+
+    @Override
+    public String uploadFile(String localFilePath, @Nullable String remoteFileDir) throws StoreException {
         return doOssRequest(StoreOperationEnum.UPLOAD_FILE,
                 () -> {
-                    File file = new File(filePath);
+                    String fileName = FileHelper.getFileName(localFilePath);
+                    String objectName = getObjectName(fileName, remoteFileDir, true);
 
-                    String objectName = FileHelper.generateFileByUUID(filePath);
+                    return uploadFileWithObjectName(localFilePath, objectName);
+                });
+    }
+
+    @Override
+    public String uploadFileWithObjectName(String localFilePath, String objectName) throws StoreException {
+        return doOssRequest(StoreOperationEnum.UPLOAD_FILE,
+                () -> {
+                    File file = new File(localFilePath);
                     // 创建PutObjectRequest对象。
                     PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, file);
+                    // 上传文件。
+                    client.putObject(putObjectRequest);
+
+                    return objectName;
+                });
+    }
+
+    @Override
+    public String uploadInputStream(InputStream inputStream, String fileName) throws StoreException {
+        return uploadInputStream(inputStream, fileName, null);
+    }
+
+    @Override
+    public String uploadInputStream(InputStream inputStream, String fileName, @Nullable String remoteFileDir) throws StoreException {
+        return doOssRequest(StoreOperationEnum.UPLOAD_FILE,
+                () -> {
+                    String objectName = getObjectName(fileName, remoteFileDir, true);
+                    return uploadInputStreamWithObjectName(inputStream, objectName);
+                });
+    }
+
+    @Override
+    public String uploadInputStreamWithObjectName(InputStream inputStream, String objectName) throws StoreException {
+        return doOssRequest(StoreOperationEnum.UPLOAD_FILE,
+                () -> {
+                    // 创建PutObjectRequest对象。
+                    PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, inputStream);
                     // 上传文件。
                     client.putObject(putObjectRequest);
 
@@ -104,10 +144,16 @@ public class DefaultOssService extends AbstractStorageService implements OssServ
                 });
     }
 
+    @Override
+    public boolean downLoadFile(String objectName, String localFileDir) throws StoreException {
+        return doOssRequest(StoreOperationEnum.DOWNLOAD_FILE,
+                () -> {
+                    GetObjectRequest request = new GetObjectRequest(bucketName, objectName);
+                    ObjectMetadata object = client.getObject(request, new File(localFileDir));
+                    return true;
+                });
 
-
-
-
+    }
 
 
     private <T> T doOssRequest(StoreOperationEnum operationEnum, Supplier<T> request) {

@@ -11,12 +11,10 @@ import java.util.UUID;
  */
 public class FileHelper {
 
-    private static String generateFilePathByDate() {
+    public static String generateFilePathByDate() {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
-        String today = sdf.format(date);
-        String uuid = UUID.randomUUID().toString();
-        return today + uuid;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        return sdf.format(date);
     }
 
 

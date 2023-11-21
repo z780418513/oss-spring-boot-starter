@@ -1,51 +1,10 @@
 package com.hb.storage.service;
 
-import com.hb.storage.exception.StoreException;
-
-import java.io.InputStream;
-
 /**
  * @author zhaochengshui
  * @description 阿里云OSS服务类
  * @date 2022/9/22
  */
-public interface OssService extends BucketService{
-
-    /**
-     * 上传文件
-     *
-     * @param filePath 本地文件地址
-     * @return 上传路径objectName
-     */
-    String upLoadFile(String filePath) throws StoreException;
-
-
-    /**
-     * 删除文件
-     *
-     * @param objectName bucket中的地址
-     */
-    void deleteFile(String objectName) throws StoreException;
-
-    /**
-     * 文件是否存在
-     *
-     * @param objectName bucket中的地址
-     * @return true = 存在
-     * @throws StoreException
-     */
-    boolean fileExist(String objectName) throws StoreException;
-
-
-    /**
-     * 下载文件到流
-     *
-     * @param objectName bucket中的地址
-     * @return InputStream流
-     */
-    InputStream downLoadFile(String objectName) throws StoreException;
-
-
-
+public interface OssService extends BucketService, FileOpeService {
 
 }
